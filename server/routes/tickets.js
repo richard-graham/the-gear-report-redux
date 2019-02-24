@@ -1,15 +1,18 @@
 const express = require('express')
 const router = express.Router()
+const {getTickets} = require('../db/tickets')
 
 // GET /api/v1/tickets
 router.get('/', (req, res) => {
-    res.json([
-        {
-            id: 5,
-            text : "test"
-        }
-    ])
-})
+    getTickets()
+    .then(tickets => {
+        res.json(tickets)
+    })
+    .catch(err => {
+        console.log(err)
+        res.setStatus(500).json({error: 'Something went wrong'})
+    })
+}) 
 
 // POST /api/v1/tickets
 
